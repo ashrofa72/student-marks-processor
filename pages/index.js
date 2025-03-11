@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-
 export default function Home() {
   const [excelFile, setExcelFile] = useState(null);
   const [csvFile, setCsvFile] = useState(null);
+  const [subjectName, setSubjectName] = useState(''); // State for subject name
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -11,6 +11,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append('students', excelFile);
     formData.append('marks', csvFile);
+    formData.append('subjectName', subjectName); // Include subject name in form data
 
     const response = await fetch('/api/process-files', {
       method: 'POST',
@@ -33,7 +34,19 @@ export default function Home() {
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-            ملف بيانات الطلاب بالصفوف:
+            ادخل اسم المادة
+            <input
+              type="text"
+              placeholder="ادخل اسم المادة"
+              value={subjectName}
+              onChange={(e) => setSubjectName(e.target.value)} // Update state on change
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+          ملف بيانات الطلاب
             <input
               type="file"
               accept=".xlsx"
@@ -44,7 +57,7 @@ export default function Home() {
         </div>
         <div>
           <label>
-            ملف درجات الطلاب من المنصة:
+            ملف الدرجات من المنصة
             <input
               type="file"
               accept=".csv"
@@ -53,9 +66,8 @@ export default function Home() {
             />
           </label>
         </div>
-        <button type="submit">معالجة ملف الدرجات</button>
+        <button type="submit">معالجة الملفات</button>
       </form>
-      <div><p>تم اعداد البرمجة بواسطة المبرمج / أشرف الطيب</p></div>
     </div>
   );
 }

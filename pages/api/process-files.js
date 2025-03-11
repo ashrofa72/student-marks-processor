@@ -19,20 +19,23 @@ export default async function handler(req, res) {
     if (err) return res.status(400).json({ error: 'File upload error' });
 
     try {
+      // Extract subject name from form data
+      const subjectName = req.body.subjectName;
+
       // Process Excel file
       const studentsBuffer = req.files['students'][0].buffer;
       const studentsWorkbook = XLSX.read(studentsBuffer, { type: 'buffer' });
       const studentsSheet = studentsWorkbook.Sheets[studentsWorkbook.SheetNames[0]];
       const studentsData = XLSX.utils.sheet_to_json(studentsSheet, { header: 1 });
-      
+
       // Extract headers and rows
       const studentsHeader = studentsData[0];
-      const stnameIndex = studentsHeader.indexOf('Corrected Name');
-      const classroomIndex = studentsHeader.indexOf('room');
-      
+      const stnameIndex = studentsHeader.indexOf('stname');
+      const classroomIndex = studentsHeader.indexOf('classroom');
+
       const students = studentsData.slice(1).map(row => ({
         name: row[stnameIndex],
-        classroom: row[classroomIndex]
+        classroom: row[classroomIndex],
       }));
 
       // Process CSV file
@@ -43,11 +46,12 @@ export default async function handler(req, res) {
         return acc;
       }, {});
 
-      // Combine data
+      // Combine data with subject name
       const combinedData = students.map(student => ({
         'Student Name': student.name,
         'Classroom': student.classroom,
-        'Mark': marks[student.name] || 'N/A'
+        'Mark': marks[student.name] || 'N/A',
+        'Subject Name': subjectName, // Add subject name to each student
       }));
 
       // Create output Excel
