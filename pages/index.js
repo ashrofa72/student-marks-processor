@@ -68,6 +68,7 @@ export default function Home() {
         </div>
         <button type="submit">معالجة الملفات</button>
       </form>
+      <div><p>تم اعداد البرمجة بواسطة المبرمج / أشرف الطيب 2025@ </p></div>
     </div>
   );
 }
