@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
       // Extract headers and rows
       const studentsHeader = studentsData[0];
-      const stnameIndex = studentsHeader.indexOf('stname');
+      const stnameIndex = studentsHeader.indexOf('Corrected Name');
       const classroomIndex = studentsHeader.indexOf('classroom');
 
       const students = studentsData.slice(1).map(row => ({
