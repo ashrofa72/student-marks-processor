@@ -6,7 +6,7 @@ const upload = multer().fields([{ name: 'students' }, { name: 'marks' }]);
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // Disable Next.js default body parser
   },
 };
 
@@ -19,8 +19,14 @@ export default async function handler(req, res) {
     if (err) return res.status(400).json({ error: 'File upload error' });
 
     try {
-      // Extract subject name from form data
-      const subjectName = req.body.subjectName;
+      // Debugging: Log uploaded files
+      console.log('Uploaded Files:', req.files);
+
+      // Extract CSV file name (excluding .csv extension)
+      const csvFileName = req.files['marks'][0].originalname; // Get the original file name
+      const fileNameWithoutExtension = csvFileName.split('.').slice(0, -1).join('.'); // Remove .csv
+
+      console.log('Extracted File Name:', fileNameWithoutExtension); // Debugging line
 
       // Process Excel file
       const studentsBuffer = req.files['students'][0].buffer;
@@ -50,18 +56,26 @@ export default async function handler(req, res) {
       const combinedData = students.map(student => ({
         'Student Name': student.name,
         'Classroom': student.classroom,
-        'Mark': marks[student.name] || 'N/A',
-        'Subject Name': subjectName, // Add subject name to each student
+        'Mark': marks[student.name] || 'غير موجود',
+        'Subject Name': fileNameWithoutExtension, // Add the extracted file name as the subject name
       }));
 
       // Create output Excel
       const ws = XLSX.utils.json_to_sheet(combinedData);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Results');
+
+      // Write to buffer
       const buffer = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
 
+      // Set response headers (including the file name)
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      res.setHeader('Content-Disposition', 'attachment; filename=student_marks.xlsx');
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename=${encodeURIComponent(fileNameWithoutExtension)}.xlsx` // Ensure proper encoding
+      );
+
+      // Send the file buffer as the response
       res.send(buffer);
     } catch (error) {
       console.error(error);

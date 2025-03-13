@@ -3,50 +3,54 @@ import { useState } from 'react';
 export default function Home() {
   const [excelFile, setExcelFile] = useState(null);
   const [csvFile, setCsvFile] = useState(null);
-  const [subjectName, setSubjectName] = useState(''); // State for subject name
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Create FormData object to send files
     const formData = new FormData();
     formData.append('students', excelFile);
     formData.append('marks', csvFile);
-    formData.append('subjectName', subjectName); // Include subject name in form data
 
-    const response = await fetch('/api/process-files', {
-      method: 'POST',
-      body: formData,
-    });
+    try {
+      // Send the files to the API route
+      const response = await fetch('/api/process-files', {
+        method: 'POST',
+        body: formData,
+      });
 
-    if (response.ok) {
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'student_marks.xlsx';
-      a.click();
+      if (response.ok) {
+        // Get the file as a blob
+        const blob = await response.blob();
+
+        // Extract the file name from the Content-Disposition header
+        const contentDisposition = response.headers.get('Content-Disposition');
+        let fileName = 'student_marks.xlsx'; // Default name
+        if (contentDisposition && contentDisposition.includes('filename=')) {
+          fileName = contentDisposition.split('filename=')[1].split(';')[0].replace(/['"]/g, '');
+        }
+
+        // Trigger the download
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName; // Use the extracted file name
+        a.click();
+      } else {
+        console.error('Error processing files:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
     }
   };
 
   return (
     <div className="container">
-      <h1>برنامج معالجة درجات الطلاب من المنصة</h1>
+      <h1>Student Marks Processor</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-            ادخل اسم المادة
-            <input
-              type="text"
-              placeholder="ادخل اسم المادة"
-              value={subjectName}
-              onChange={(e) => setSubjectName(e.target.value)} // Update state on change
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-          ملف بيانات الطلاب
+            Students Excel File:
             <input
               type="file"
               accept=".xlsx"
@@ -57,7 +61,7 @@ export default function Home() {
         </div>
         <div>
           <label>
-            ملف الدرجات من المنصة
+            Marks CSV File:
             <input
               type="file"
               accept=".csv"
@@ -66,9 +70,8 @@ export default function Home() {
             />
           </label>
         </div>
-        <button type="submit">معالجة الملفات</button>
+        <button type="submit">Process Files</button>
       </form>
-      <div><p>تم اعداد البرمجة بواسطة المبرمج / أشرف الطيب 2025@ </p></div>
     </div>
   );
 }
