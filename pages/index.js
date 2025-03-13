@@ -46,11 +46,11 @@ export default function Home() {
 
   return (
     <div className="container">
-      <h1>Student Marks Processor</h1>
+      <h2>برنامج معالجة درجات الطلاب حسب الصفوف من المنصة</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-            Students Excel File:
+           ملف بيانات الطلاب
             <input
               type="file"
               accept=".xlsx"
@@ -61,7 +61,7 @@ export default function Home() {
         </div>
         <div>
           <label>
-            Marks CSV File:
+            ملف الدرجات من المنصة
             <input
               type="file"
               accept=".csv"
@@ -70,8 +70,9 @@ export default function Home() {
             />
           </label>
         </div>
-        <button type="submit">Process Files</button>
+        <button type="submit">معالجة الملفات</button>
       </form>
+      <div><p>تم اعداد البرمجة بواسطة المبرمج / أشرف كامل 2025@</p></div>
     </div>
   );
 }
