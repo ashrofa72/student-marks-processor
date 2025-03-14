@@ -35,35 +35,60 @@
   .uploadButton:hover {
     background: #0056b3;
   }
+  /* Dropdown Container */
+.dropdownContainer {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.dropdownContainer label {
+  margin-right: 10px;
+}
+
+.dropdownContainer select {
+  padding: 8px;
+  font-size: 1rem;
+}
   
   /* Table Styles */
-  .tableContainer {
-    overflow-x: auto;
-    margin-bottom: 20px;
-  }
-  
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-  }
-  
-  .table th,
-  .table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  .table th {
-    background: #f4f6f8;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .table tr:nth-child(even) {
-    background: #f9f9f9;
-  }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  table-layout: fixed; /* Ensure fixed column widths */
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  word-wrap: break-word; /* Allow long text to wrap */
+  max-width: 200px; /* Set a maximum width for each column */
+  overflow: hidden; /* Hide overflowed content */
+  text-overflow: ellipsis; /* Add ellipsis for truncated text */
+}
+
+/* Adjust specific column widths */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 25%; /* Student Name */
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 10%; /* Classroom */
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 10%; /* Mark */
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 25%; /* Subject Name */
+}
   
   /* Print Button */
   .printButton {
@@ -80,3 +105,106 @@
   .printButton:hover {
     background: #218838;
   }
+  /* Print-specific styles */
+@media print {
+  /* General adjustments */
+  .body {
+    margin: 0;
+    padding: 0;
+    font-size: 10px; /* Reduce font size for better fit */
+    line-height: 1.2; /* Compact line height */
+  }
+
+  /* Table container */
+  .tableContainer {
+    width: 100%;
+    overflow: visible;
+    page-break-inside: avoid; /* Prevent table rows from splitting across pages */
+  }
+
+  /* Table header */
+  .table th {
+    font-size: 10px; /* Reduce font size for headers */
+    padding: 4px; /* Reduce padding */
+    white-space: nowrap; /* Prevent headers from wrapping */
+   
+  }
+
+  /* Table cells */
+  .table td {
+    font-size: 9px; /* Reduce font size for data */
+    padding: 4px; /* Reduce padding */
+    white-space: nowrap; /* Prevent text wrapping */
+    border: 1px solid #000; /* Ensure borders are visible */
+    
+  }
+
+  /* Table layout */
+  .table {
+    width: 100%; /* Ensure the table spans the full page width */
+    border-collapse: collapse; /* Remove gaps between cells */
+    table-layout: fixed; /* Force fixed-width columns */
+    text-align: center;
+  }
+
+  /* Hide unnecessary elements during printing */
+  .navbar,
+  .uploadSection,
+  .dropdownContainer,
+  .printButton {
+    display: none; /* Hide non-table elements */
+  }
+}
+
+/* Navbar and Title - Hide during printing */
+@media print {
+  .navbar,
+  .container h1 {
+    display: none; /* Hide navbar and title */
+  }
+
+  /* Adjust table container margins for better fit */
+  .tableContainer {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+}
+
+@media print {
+  .body {
+    margin: 0;
+    padding: 0;
+    font-size: 10px; /* Reduce font size for better fit */
+    line-height: 1.2; /* Compact line height */
+  }
+
+  /* Table container */
+  .tableContainer {
+    width: 100%;
+    overflow: visible;
+    page-break-inside: avoid; /* Prevent table rows from splitting across pages */
+  }
+
+  /* Table header */
+  .table th {
+    font-size: 10px; /* Reduce font size for headers */
+    padding: 4px; /* Reduce padding */
+    white-space: nowrap; /* Prevent headers from wrapping */
+  }
+
+  /* Table cells */
+  .table td {
+    font-size: 9px; /* Reduce font size for data */
+    padding: 4px; /* Reduce padding */
+    white-space: nowrap; /* Prevent text wrapping */
+    border: 1px solid #000; /* Ensure borders are visible */
+  }
+
+  /* Table layout */
+  .table {
+    width: 100%; /* Ensure the table spans the full page width */
+    border-collapse: collapse; /* Remove gaps between cells */
+    table-layout: fixed; /* Force fixed-width columns */
+  }
+}

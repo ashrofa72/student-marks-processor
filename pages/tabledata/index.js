@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 export default function Home() {
   const [data, setData] = useState([]); // State to store Excel data
   const [columns, setColumns] = useState([]); // State to store column headers
+  const [selectedClassroom, setSelectedClassroom] = useState(''); // State for selected classroom
 
   // Handle file upload
   const handleFileUpload = (e) => {
@@ -41,25 +42,54 @@ export default function Home() {
     window.print();
   };
 
+  // Filter data based on selected classroom
+  const filteredData = selectedClassroom
+    ? data.filter(row => row[1] === selectedClassroom)
+    : data;
+
+  // Get unique classrooms for dropdown options
+  const uniqueClassrooms = Array.from(new Set(data.map(row => row[1])));
+
+  // Add additional classrooms from 2-1 to 2-7
+  const allClassrooms = [
+    ...uniqueClassrooms,
+    '1-1','2-1', '2-2', '2-3', '2-4', '2-5', '2-6', '2-7'
+  ].filter((value, index, self) => self.indexOf(value) === index); // Remove duplicates
+
   return (
     <div className={styles.container}>
-      <div>
       <Navbar />
-      </div>
       <h1>عرض درجات المادة حسب الفصول</h1>
 
       {/* File Upload Input */}
       <div className={styles.uploadSection}>
         <label htmlFor="file-upload" className={styles.uploadButton}>
-         اضغط لرفع ملف الاكسل
+          اضغط لرفع ملف الاكسل
         </label>
         <input
           id="file-upload"
           type="file"
           accept=".xlsx, .xls"
           onChange={handleFileUpload}
-          style={{display: 'none' }}
+          style={{ display: 'none' }}
         />
+      </div>
+
+      {/* Classroom Dropdown */}
+      <div className={styles.dropdownContainer}>
+        <label htmlFor="classroom-select">اختر الفصل:</label>
+        <select
+          id="classroom-select"
+          value={selectedClassroom}
+          onChange={(e) => setSelectedClassroom(e.target.value)}
+        >
+          <option value="">جميع الفصول</option>
+          {allClassrooms.map((classroom, index) => (
+            <option key={index} value={classroom}>
+              {classroom}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Table to Display Data */}
@@ -74,7 +104,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {data.map((row, rowIndex) => (
+              {filteredData.map((row, rowIndex) => (
                 <tr key={rowIndex}>
                   {row.map((cell, cellIndex) => (
                     <td key={cellIndex}>{cell}</td>
