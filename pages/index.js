@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import Navbar from './components/Navbar';
 export default function Home() {
   const [excelFile, setExcelFile] = useState(null);
   const [csvFile, setCsvFile] = useState(null);
@@ -46,6 +46,10 @@ export default function Home() {
 
   return (
     <div className="container">
+      <div>
+      <Navbar />
+      </div>
+      <div>
       <h2>برنامج معالجة درجات الطلاب حسب الصفوف من المنصة</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -73,6 +77,7 @@ export default function Home() {
         <button type="submit">معالجة الملفات</button>
       </form>
       <div><p>تم اعداد البرمجة بواسطة المبرمج / أشرف كامل 2025@</p></div>
+    </div>
     </div>
   );
 }
