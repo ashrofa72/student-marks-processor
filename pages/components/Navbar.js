@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
-        <h1>برنامج معالجة درجات الامتحان</h1>
+        <h3>برنامج معالجة درجات الامتحان من المنصة</h3>
       </div>
       <ul className={styles.navLinks}>
         <li>

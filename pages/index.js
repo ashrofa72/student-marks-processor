@@ -50,7 +50,7 @@ export default function Home() {
       <Navbar />
       </div>
       <div>
-      <h2>برنامج معالجة درجات الطلاب حسب الصفوف من المنصة</h2>
+      <h3>برنامج معالجة درجات الطلاب حسب الصفوف من المنصة</h3>
       <form onSubmit={handleSubmit}>
         <div>
           <label>

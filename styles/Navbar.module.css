@@ -1,4 +1,6 @@
 /* General Styles */
+/* Import Marhey font */
+@import url('https://fonts.googleapis.com/css2?family=Marhey:wght@400;700&display=swap');
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -6,7 +8,7 @@
     padding: 10px 20px;
     background: #007bff;
     color: #fff;
-    font-family: Arial, sans-serif;
+    font-family: Marhey, sans-serif;
   }
   
   .logo h1 {
@@ -33,9 +35,11 @@
     font-size: 1rem;
     font-weight: bold;
     transition: color 0.3s ease;
+   
   }
   
   .navLinks a:hover {
     color: #f9f9f9;
-    text-decoration: underline;
+    text-decoration: none;
+    color: #000;
   }

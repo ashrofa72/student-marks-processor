@@ -1,4 +1,6 @@
 /* General Styles */
+/* Import Marhey font */
+@import url('https://fonts.googleapis.com/css2?family=Marhey:wght@400;700&display=swap');
 .container {
     max-width: 1200px;
     margin: 50px auto;
@@ -7,6 +9,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    font-family: Marhey,sans-serif;
   }
   
   .container h1 {
