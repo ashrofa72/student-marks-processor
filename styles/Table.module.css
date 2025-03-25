@@ -107,104 +107,41 @@
   }
   /* Print-specific styles */
 @media print {
-  /* General adjustments */
-  .body {
-    margin: 0;
-    padding: 0;
-    font-size: 10px; /* Reduce font size for better fit */
-    line-height: 1.2; /* Compact line height */
+  /* Hide non-essential elements */
+  .button, .select, .label, .hidden-on-print {
+    display: none !important;
   }
 
-  /* Table container */
-  .tableContainer {
-    width: 100%;
-    overflow: visible;
-    page-break-inside: avoid; /* Prevent table rows from splitting across pages */
-  }
-
-  /* Table header */
-  .table th {
-    font-size: 10px; /* Reduce font size for headers */
-    padding: 4px; /* Reduce padding */
-    white-space: nowrap; /* Prevent headers from wrapping */
-   
-  }
-
-  /* Table cells */
-  .table td {
-    font-size: 9px; /* Reduce font size for data */
-    padding: 4px; /* Reduce padding */
-    white-space: nowrap; /* Prevent text wrapping */
-    border: 1px solid #000; /* Ensure borders are visible */
-    
-  }
-
-  /* Table layout */
+  /* Ensure the table fits within the page */
   .table {
-    width: 100%; /* Ensure the table spans the full page width */
-    border-collapse: collapse; /* Remove gaps between cells */
-    table-layout: fixed; /* Force fixed-width columns */
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px; /* Reduce font size for compactness */
+  }
+
+  .table th, .table td {
+    padding: 4px; /* Reduce padding */
+    border: 1px solid #000; /* Ensure borders are visible */
     text-align: center;
   }
 
-  /* Hide unnecessary elements during printing */
-  .navbar,
-  .uploadSection,
-  .dropdownContainer,
-  .printButton {
-    display: none; /* Hide non-table elements */
-  }
-}
-
-/* Navbar and Title - Hide during printing */
-@media print {
-  .navbar,
-  .container h1 {
-    display: none; /* Hide navbar and title */
+  /* Prevent table rows from breaking across pages */
+  .table tr {
+    page-break-inside: avoid;
   }
 
-  /* Adjust table container margins for better fit */
-  .tableContainer {
+  /* Control page margins */
+  @page {
+    size: A4; /* Set paper size to A4 */
+    margin: 10mm; /* Reduce margins */
+  }
+
+  /* Ensure the container spans the full width */
+  .container {
+    width: 100%;
     margin: 0;
     padding: 0;
-    width: 100%;
   }
 }
 
-@media print {
-  .body {
-    margin: 0;
-    padding: 0;
-    font-size: 10px; /* Reduce font size for better fit */
-    line-height: 1.2; /* Compact line height */
-  }
 
-  /* Table container */
-  .tableContainer {
-    width: 100%;
-    overflow: visible;
-    page-break-inside: avoid; /* Prevent table rows from splitting across pages */
-  }
-
-  /* Table header */
-  .table th {
-    font-size: 10px; /* Reduce font size for headers */
-    padding: 4px; /* Reduce padding */
-    white-space: nowrap; /* Prevent headers from wrapping */
-  }
-
-  /* Table cells */
-  .table td {
-    font-size: 9px; /* Reduce font size for data */
-    padding: 4px; /* Reduce padding */
-    white-space: nowrap; /* Prevent text wrapping */
-    border: 1px solid #000; /* Ensure borders are visible */
-  }
-
-  /* Table layout */
-  .table {
-    width: 100%; /* Ensure the table spans the full page width */
-    border-collapse: collapse; /* Remove gaps between cells */
-    table-layout: fixed; /* Force fixed-width columns */
-  }
-}

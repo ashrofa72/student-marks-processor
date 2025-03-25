@@ -59,7 +59,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Navbar />
-      <h1>عرض درجات المادة حسب الفصول</h1>
+      <h2>عرض درجات المادة حسب الفصول من المنصة</h2>
 
       {/* File Upload Input */}
       <div className={styles.uploadSection}>
